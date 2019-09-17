@@ -1,4 +1,4 @@
-package cn.amphobia.running_task.Mapper;
+package cn.amphobia.running_task.mapper;
 
 import cn.amphobia.running_task.bean.User;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserMapper {
 
     //查询所有用户
-    List<User> userList();
+    List<User> getUserList();
 
     //根据电话查询单个用户
     User getUser(@Param("telephone") String telephone);

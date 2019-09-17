@@ -1,8 +1,8 @@
 package cn.amphobia.running_task.Service;
 
-import cn.amphobia.running_task.Mapper.UserMapper;
 import cn.amphobia.running_task.Service.impl.UserServiceImpl;
 import cn.amphobia.running_task.bean.User;
+import cn.amphobia.running_task.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,12 @@ import java.util.List;
 public class UserService implements UserServiceImpl {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
-    public List<User> userList(){
-        return userMapper.userList();
+
+    @Override
+    public List<User> getUserList() {
+        return userMapper.getUserList();
     }
 
     @Override
