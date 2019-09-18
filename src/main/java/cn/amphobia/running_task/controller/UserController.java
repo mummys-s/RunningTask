@@ -35,20 +35,25 @@ public class UserController {
         String name = "";
         String msg = "";
         int status = 0;
+        int successful = 0;
         if (user == null) {
             msg = "此用户不存在";
             name = "";
+            successful = 0;
         } else if (!user.getPassword().equals(password)) {
             msg = "密码错误";
+            successful = 0;
         } else {
             msg = "成功";
             name = user.getUsername();
             status = user.getStatus();
+            successful = 1;
         }
 
         userMap.put("msg", msg);
         userMap.put("usernmae", name);
         userMap.put("status", status);
+        userMap.put("successful", successful);
         return JSONObject.toJSONString(userMap);
     }
 
