@@ -12,6 +12,7 @@ public interface UserServiceImpl{
     //根据电话查询单个用户
     User getUser(String telephone);
 
-
+    //注册，添加用户
+    int addUser(String id,String password,String telephone,String create_time);
 
 }

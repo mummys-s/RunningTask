@@ -15,4 +15,10 @@ public interface UserMapper {
     //根据电话查询单个用户
     User getUser(@Param("telephone") String telephone);
 
+    //注册添加用户
+    int addUser(@Param("id") String id,
+                @Param("password") String password,
+                @Param("telephone") String telephone,
+                @Param("create_time") String create_time);
+
 }

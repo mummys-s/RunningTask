@@ -9,6 +9,7 @@ public class User {
     private Text image;
     private Integer status;
     private String telephone;
+    private String create_time;
 
     public String getId() {
         return id;
@@ -58,6 +59,14 @@ public class User {
         this.telephone = telephone;
     }
 
+    public String getCreateTime() {
+        return create_time;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.create_time = createTime;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +76,7 @@ public class User {
                 ", image=" + image +
                 ", status=" + status +
                 ", telephone='" + telephone + '\'' +
+                ", createTime='" + create_time + '\'' +
                 '}';
     }
 }

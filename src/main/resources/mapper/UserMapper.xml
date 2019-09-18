@@ -10,4 +10,11 @@
       SELECT * FROM users WHERE telephone = #{telephone}
     </select>
 
+    <insert id="addUser" parameterType="cn.amphobia.running_task.bean.User">
+        INSERT INTO users
+        (id,password,telephone,create_time)
+        values
+        (#{id},#{password},#{telephone},#{create_time})
+    </insert>
+
 </mapper>
