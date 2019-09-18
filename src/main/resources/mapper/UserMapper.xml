@@ -10,6 +10,7 @@
       SELECT * FROM users WHERE telephone = #{telephone}
     </select>
 
+    <!--添加用户-->
     <insert id="addUser" parameterType="cn.amphobia.running_task.bean.User">
         INSERT INTO users
         (id,password,telephone,create_time)
@@ -17,4 +18,12 @@
         (#{id},#{password},#{telephone},#{create_time})
     </insert>
 
+    <!--修改密码-->
+    <update id="updatePassword" parameterType="cn.amphobia.running_task.bean.User">
+        UPDATE users
+        SET
+        password = #{password}
+        WHERE
+        telephone = #{telephone}
+    </update>
 </mapper>

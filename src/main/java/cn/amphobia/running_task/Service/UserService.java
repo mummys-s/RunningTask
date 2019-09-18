@@ -30,5 +30,10 @@ public class UserService implements UserServiceImpl {
         return userMapper.addUser(id,password,telephone,create_time);
     }
 
+    @Override
+    public int updatePassword(String password, String telephone) {
+        return userMapper.updatePassword(password,telephone);
+    }
+
 
 }

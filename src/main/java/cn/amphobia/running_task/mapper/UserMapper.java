@@ -21,4 +21,8 @@ public interface UserMapper {
                 @Param("telephone") String telephone,
                 @Param("create_time") String create_time);
 
+    //修改密码
+    int updatePassword(@Param("password") String password,
+                       @Param("telephone") String telephone);
+
 }
