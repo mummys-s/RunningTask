@@ -39,15 +39,15 @@ public class UserController {
         if (user == null) {
             msg = "此用户不存在";
             name = "";
-            successful = 0;
+            successful = -1;
         } else if (!user.getPassword().equals(password)) {
             msg = "密码错误";
-            successful = 0;
+            successful = 1;
         } else {
             msg = "成功";
             name = user.getUsername();
             status = user.getStatus();
-            successful = 1;
+            successful = 0;
         }
 
         userMap.put("msg", msg);
@@ -68,6 +68,7 @@ public class UserController {
         JSONObject jsonObject = JSONObject.parseObject(result);
         String status = jsonObject.getString("status");
         String msg = "";
+        int successful = 0;
         if (status.trim().contains("200")) {
             System.out.println("---------------->");
             System.out.println("添加数据");
@@ -83,9 +84,11 @@ public class UserController {
                 int row = userServiceImpl.addUser(id, password, telephone, create_time);
                 if (row == 1) {
                     msg = "验证通过，添加成功";
+                    successful = 0;
                 }
             } else {
                 msg = "用户已被注册";
+                successful = 1;
             }
         } else if (status.trim().contains("456")) {
             msg = "国家代码或手机号码为空";
@@ -108,6 +111,7 @@ public class UserController {
 
         userMap.put("status", status);
         userMap.put("msg", msg);
+        userMap.put("successful",successful);
 
         return JSONObject.toJSONString(userMap);
     }
@@ -125,6 +129,7 @@ public class UserController {
         JSONObject jsonObject = JSONObject.parseObject(result);
         String status = jsonObject.getString("status");
         String msg = "";
+        int successful = 0;
         if (status.trim().contains("200")) {
             System.out.println("---------------->");
             System.out.println("开始更新");
@@ -133,11 +138,14 @@ public class UserController {
                 int row = userServiceImpl.updatePassword(password, telephone);
                 if (row == 1){
                     msg = "修改密码成功!";
+                    successful = 0;
                 }else {
                     msg = "修改密码失败";
+                    successful = 1;
                 }
             }else {
                 msg = "该用户不存在!";
+                successful = -1;
             }
         } else if (status.trim().contains("456")) {
             msg = "国家代码或手机号码为空";
@@ -160,6 +168,7 @@ public class UserController {
 
         userMap.put("status", status);
         userMap.put("msg", msg);
+        userMap.put("successful",successful);
 
         return JSONObject.toJSONString(userMap);
     }
