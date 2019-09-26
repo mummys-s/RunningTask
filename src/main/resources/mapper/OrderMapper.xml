@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.amphobia.running_task.mapper.OrderMapper">
+    <!--发布订单-->
+    <insert id="addOrder" parameterType="cn.amphobia.running_task.bean.Orders">
+        INSERT INTO orders
+        (orderId,goodName,goodLocation,endTime,endAddress,money,telephone,createTime)
+        values
+        (#{orderId},#{goodName},#{goodLocation},#{endTime},#{endAddress},#{money},#{telephone},#{createTime})
+    </insert>
+
+    <!--查询全部发布订单-->
+    <select id="getOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
+        select * from orders
+    </select>
+
+    <!--查询我的订单-->
+    <select id="getMyOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
+        select * from orders where telephone = #{telephone}
+    </select>
+</mapper>
