@@ -11,13 +11,28 @@
         (#{orderId},#{goodName},#{goodLocation},#{endTime},#{endAddress},#{money},#{telephone},#{createTime})
     </insert>
 
-    <!--查询全部发布订单-->
-    <select id="getOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
-        select * from orders
+    <!--//查询全部订单  List<Orders> getOrdersList();-->
+    <select id="getOrdersList" parameterType="map" resultType="cn.amphobia.running_task.bean.Orders">
+        select * from orders order by createTime desc limit #{currIndex},#{pageSize}
     </select>
 
     <!--查询我的订单-->
     <select id="getMyOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
         select * from orders where telephone = #{telephone}
     </select>
+
+    <!-- //接单-->
+    <update id="updateOrder" >
+        UPDATE orders SET states = '正在取件',runName=#{runName},runTelephone=#{runTelephone} WHERE orderId = #{orderId}
+    </update>
+
+    <!--取消订单-->
+    <update id="removeOrder" >
+        UPDATE orders SET states = '订单取消' WHERE orderId = #{orderId}
+    </update>
+
+    <!-- 完成订单-->
+    <update id="overOrder" >
+        UPDATE orders SET states = '订单完成' WHERE orderId = #{orderId}
+    </update>
 </mapper>

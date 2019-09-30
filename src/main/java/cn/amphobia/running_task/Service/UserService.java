@@ -26,9 +26,10 @@ public class UserService implements UserServiceImpl {
     }
 
     @Override
-    public int addUser(String id, String password, String telephone, String create_time) {
-        return userMapper.addUser(id,password,telephone,create_time);
+    public int addUser(String id, String username, String password, String telephone, String create_time) {
+        return userMapper.addUser(id,username,password,telephone,create_time);
     }
+
 
     @Override
     public int updatePassword(String password, String telephone) {

@@ -45,23 +45,25 @@ public class OrderController {
             msg = "发布失败";
             successful = -1;
         }
-
+        orderMap.put("orderId",orderId);
         orderMap.put("msg", msg);
         orderMap.put("successful", successful);
 
         return JSONObject.toJSONString(orderMap);
     }
 
-    //查询全部订单
+    //查询全部订单 pageNo（页码）、pageSize（每页条数）
     @GetMapping("orderList")
-    public String getOrdersList() {
-        List<Orders> list = orderServiceImpl.getOrdersList();
+    public String getOrdersList(@RequestParam(value = "pageNo") int pageNo,
+                                @RequestParam(value = "pageSize") int pageSize) {
+        List<Orders> list = orderServiceImpl.getOrdersList(pageNo,pageSize);
+        System.out.println("list------->"+list);
         String name = "";
         String msg = "";
         int status = 0;
         int successful = -1;
-        if (list == null) {
-            msg = "失败";
+        if (list.size() == 0) {
+            msg = "我也是有底线的!";
         } else {
             msg = "成功";
             successful = 0;
@@ -71,8 +73,10 @@ public class OrderController {
         orderMap.put("successful",successful);
         orderMap.put("data",list);
 
+
         return JSONObject.toJSONString(orderMap);
     }
+
 
     //查询我的订单
     @GetMapping("getMyOrders")
@@ -95,6 +99,80 @@ public class OrderController {
         orderMap.put("msg",msg);
         orderMap.put("data",myList);
 
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //接单
+    @GetMapping("getOrder")
+    public String getOrder(@RequestParam(value = "orderId") String orderId,
+                           @RequestParam(value = "runName") String runName,
+                           @RequestParam(value = "runTelephone") String runTelephone) {
+
+        String msg = "";
+        int successful = 0;
+        String status = "";
+        int row = orderServiceImpl.getOrder(orderId,runName,runTelephone);
+        if(row == 1){
+            msg = "接单成功!";
+            status = "正在接单...";
+            successful = 0;
+        }else {
+            msg = "接单失败";
+            successful = 1;
+        }
+
+        orderMap.put("msg", msg);
+        orderMap.put("successful",successful);
+        orderMap.put("status",status);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //取消接单
+    @GetMapping("removeOrder")
+    public String removeOrder(@RequestParam(value = "orderId") String orderId) {
+
+        String msg = "";
+        int successful = 0;
+        String status = "";
+
+        int row = orderServiceImpl.removeOrder(orderId);
+        if(row == 1){
+            msg = "订单取消成功!";
+            status = "订单取消";
+            successful = 0;
+        }else {
+            msg = "订单取消失败";
+            successful = 1;
+        }
+
+        orderMap.put("msg", msg);
+        orderMap.put("successful",successful);
+        orderMap.put("status",status);
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //完成订单
+
+    @GetMapping("overOrder")
+    public String voerOrder(@RequestParam(value = "orderId") String orderId) {
+
+        String msg = "";
+        int successful = 0;
+        String status = "";
+        int row = orderServiceImpl.overOrder(orderId);
+        if(row == 1){
+            msg = "订单完成!";
+            status = "订单完成";
+            successful = 0;
+        }else {
+            msg = "订单未完成";
+            successful = 1;
+        }
+
+        orderMap.put("msg", msg);
+        orderMap.put("successful",successful);
+        orderMap.put("status",status);
         return JSONObject.toJSONString(orderMap);
     }
 

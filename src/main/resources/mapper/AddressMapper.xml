@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.amphobia.running_task.mapper.AddressMapper">
+    <!--添加新地址-->
+    <insert id="addAddress" parameterType="cn.amphobia.running_task.bean.Address">
+        INSERT INTO address
+        (id,address,status,telephone)
+        VALUES
+        (#{id},#{address},#{status},#{telephone})
+    </insert>
+    <!--修改地址-->
+    <update id="updateAddress" parameterType="cn.amphobia.running_task.bean.Address">
+        UPDATE address
+        SET
+        address = #{address},
+        status = #{status},
+        telephone = #{telephone}
+        WHERE
+        id = #{id}
+    </update>
+
+    <!--查看地址-->
+    <select id="getAddress" parameterType="map" resultType="cn.amphobia.running_task.bean.Address">
+        SELECT * FROM address WHERE telephone = #{telephone}
+    </select>
+</mapper>

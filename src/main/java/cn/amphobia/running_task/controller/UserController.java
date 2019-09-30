@@ -59,7 +59,8 @@ public class UserController {
 
     //注册接口
     @GetMapping("register")
-    public String addUser(@RequestParam(value = "telephone") String telephone,
+    public String addUser(@RequestParam(value = "username") String username,
+                          @RequestParam(value = "telephone") String telephone,
                           @RequestParam(value = "password") String password,
                           @RequestParam(value = "code") String code) {
 
@@ -81,7 +82,7 @@ public class UserController {
             System.out.println(create_time);
             User user = userServiceImpl.getUser(telephone);
             if (user == null) {
-                int row = userServiceImpl.addUser(id, password, telephone, create_time);
+                int row = userServiceImpl.addUser(id,username, password, telephone, create_time);
                 if (row == 1) {
                     msg = "验证通过，添加成功";
                     successful = 0;
@@ -111,7 +112,7 @@ public class UserController {
 
         userMap.put("status", status);
         userMap.put("msg", msg);
-        userMap.put("successful",successful);
+        userMap.put("successful", successful);
 
         return JSONObject.toJSONString(userMap);
     }
@@ -134,16 +135,16 @@ public class UserController {
             System.out.println("---------------->");
             System.out.println("开始更新");
             User user = userServiceImpl.getUser(telephone);
-            if (user != null){
+            if (user != null) {
                 int row = userServiceImpl.updatePassword(password, telephone);
-                if (row == 1){
+                if (row == 1) {
                     msg = "修改密码成功!";
                     successful = 0;
-                }else {
+                } else {
                     msg = "修改密码失败";
                     successful = 1;
                 }
-            }else {
+            } else {
                 msg = "该用户不存在!";
                 successful = -1;
             }
@@ -168,7 +169,7 @@ public class UserController {
 
         userMap.put("status", status);
         userMap.put("msg", msg);
-        userMap.put("successful",successful);
+        userMap.put("successful", successful);
 
         return JSONObject.toJSONString(userMap);
     }

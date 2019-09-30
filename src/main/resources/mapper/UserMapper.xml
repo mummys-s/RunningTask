@@ -13,9 +13,9 @@
     <!--添加用户-->
     <insert id="addUser" parameterType="cn.amphobia.running_task.bean.User">
         INSERT INTO users
-        (id,password,telephone,create_time)
+        (id,username,password,telephone,create_time)
         values
-        (#{id},#{password},#{telephone},#{create_time})
+        (#{id},#{username},#{password},#{telephone},#{create_time})
     </insert>
 
     <!--修改密码-->

@@ -13,7 +13,7 @@ public interface UserServiceImpl{
     User getUser(String telephone);
 
     //注册，添加用户
-    int addUser(String id,String password,String telephone,String create_time);
+    int addUser(String id,String username,String password,String telephone,String create_time);
 
     //修改密码
     int updatePassword(String password,String telephone);

@@ -15,9 +15,18 @@ public interface OrderServiceImpl {
                  String telephone,
                  String createTime);
 
-    //查询个人发布订单
-    List<Orders> getOrdersList();
+    //查询全部订单---分页
+    List<Orders> getOrdersList(int pageNo,int pageSize);
 
-    //查询全部订单
+    //查询个人订单
     List<Orders> getMyOrdersList(String telephone);
+
+    //接单
+    int getOrder(String order_id,String runName,String runTelephone);
+
+    //取消订单
+    int removeOrder(String order_id);
+
+    //完成订单
+    int overOrder(String order_id);
 }

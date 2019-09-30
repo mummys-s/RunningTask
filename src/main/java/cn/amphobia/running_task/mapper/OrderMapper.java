@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface OrderMapper {
@@ -18,10 +19,21 @@ public interface OrderMapper {
                  @Param("telephone") String telephone,
                  @Param("createTime") String createTime);
 
-    //查询个人发布订单
-    List<Orders> getOrdersList();
+    //查询全部订单---分页
+    List<Orders> getOrdersList(Map<String, Object> data);
 
     //查询全部订单
     List<Orders> getMyOrdersList(@Param("telephone") String telephone);
+
+    //接单
+    int updateOrder(@Param("orderId") String orderId,
+                    @Param("runName") String runName,
+                    @Param("runTelephone") String runTelephone);
+
+    //取消订单
+    int removeOrder(@Param("orderId") String order_id);
+
+    //完成订单
+    int overOrder(@Param("orderId") String order_id);
 
 }
