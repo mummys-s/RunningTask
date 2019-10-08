@@ -6,15 +6,16 @@
     <!--添加新地址-->
     <insert id="addAddress" parameterType="cn.amphobia.running_task.bean.Address">
         INSERT INTO address
-        (id,address,status,telephone)
+        (id,address,status,telephone,username,userTelephone)
         VALUES
-        (#{id},#{address},#{status},#{telephone})
+        (#{id},#{address},#{status},#{telephone},#{username},#{userTelephone})
     </insert>
     <!--修改地址-->
     <update id="updateAddress" parameterType="cn.amphobia.running_task.bean.Address">
         UPDATE address
         SET
         address = #{address},
+        username = #{username},
         status = #{status},
         telephone = #{telephone}
         WHERE
@@ -23,6 +24,6 @@
 
     <!--查看地址-->
     <select id="getAddress" parameterType="map" resultType="cn.amphobia.running_task.bean.Address">
-        SELECT * FROM address WHERE telephone = #{telephone}
+        SELECT * FROM address WHERE userTelephone = #{userTelephone}
     </select>
 </mapper>

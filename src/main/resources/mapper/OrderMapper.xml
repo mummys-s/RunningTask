@@ -6,9 +6,9 @@
     <!--发布订单-->
     <insert id="addOrder" parameterType="cn.amphobia.running_task.bean.Orders">
         INSERT INTO orders
-        (orderId,goodName,goodLocation,endTime,endAddress,money,telephone,createTime)
+        (orderId,endAddress,money,goodName,telephone,createTime,username,other)
         values
-        (#{orderId},#{goodName},#{goodLocation},#{endTime},#{endAddress},#{money},#{telephone},#{createTime})
+        (#{orderId},#{endAddress},#{money},#{goodName},#{telephone},#{createTime},#{username},#{other})
     </insert>
 
     <!--//查询全部订单  List<Orders> getOrdersList();-->

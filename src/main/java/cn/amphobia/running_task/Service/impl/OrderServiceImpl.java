@@ -5,15 +5,17 @@ import cn.amphobia.running_task.bean.Orders;
 import java.util.List;
 
 public interface OrderServiceImpl {
+
+
     //发布订单
     int addOrder(String order_id,
-                 String good_name,
-                 String good_location,
-                 String end_time,
-                 String end_address,
+                 String endAddress,
                  String money,
+                 String goodName,
                  String telephone,
-                 String createTime);
+                 String createTime,
+                 String username,
+                 String other);
 
     //查询全部订单---分页
     List<Orders> getOrdersList(int pageNo,int pageSize);

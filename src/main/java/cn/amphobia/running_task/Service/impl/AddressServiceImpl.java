@@ -7,11 +7,11 @@ import java.util.List;
 public interface AddressServiceImpl {
 
     //添加地址
-    int addAddress(String id,String address,String status,String telephone);
+    int addAddress(String id,String address,String status,String telephone,String username,String userTelephone);
 
     //修改地址
-    int updateAddress(String address,String status,String telephone,String id);
+    int updateAddress(String address,String username,String status,String telephone,String id);
 
     //查找地址
-    List<Address> getAddress(String telephone);
+    List<Address> getAddress(String userTelephone);
 }

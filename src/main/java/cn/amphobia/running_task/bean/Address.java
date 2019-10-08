@@ -5,6 +5,8 @@ public class Address {
     private String address;
     private String telephone;
     private String status;
+    private String username;
+    private String userTelephone;
 
     public String getId() {
         return id;
@@ -38,6 +40,22 @@ public class Address {
         this.status = status;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUserTelephone() {
+        return userTelephone;
+    }
+
+    public void setUserTelephone(String userTelephone) {
+        this.userTelephone = userTelephone;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -45,6 +63,8 @@ public class Address {
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", status='" + status + '\'' +
+                ", username='" + username + '\'' +
+                ", userTelephone='" + userTelephone + '\'' +
                 '}';
     }
 }

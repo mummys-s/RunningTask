@@ -13,6 +13,7 @@ public class Orders {
     private String createTime;
     private String runName;
     private String runTelephone;
+    private String other;
 
     public String getOrderId() {
         return orderId;
@@ -110,6 +111,14 @@ public class Orders {
         this.runTelephone = runTelephone;
     }
 
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
     @Override
     public String toString() {
         return "Orders{" +
@@ -125,6 +134,7 @@ public class Orders {
                 ", createTime='" + createTime + '\'' +
                 ", runName='" + runName + '\'' +
                 ", runTelephone='" + runTelephone + '\'' +
+                ", other='" + other + '\'' +
                 '}';
     }
 }

@@ -18,8 +18,8 @@ public class OrderService implements OrderServiceImpl {
 
 
     @Override
-    public int addOrder(String order_id, String good_name, String good_location, String end_time, String end_address, String money, String telephone, String createTime) {
-        return orderMapper.addOrder(order_id, good_name, good_location, end_time, end_address, money, telephone,createTime);
+    public int addOrder(String order_id, String endAddress, String money, String goodName, String telephone, String createTime, String username, String other) {
+        return orderMapper.addOrder(order_id,endAddress,money,goodName,telephone,createTime,username,other);
     }
 
     @Override

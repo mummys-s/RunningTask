@@ -9,15 +9,16 @@ import java.util.Map;
 
 @Repository
 public interface OrderMapper {
+
     //发布订单
     int addOrder(@Param("orderId") String order_id,
-                 @Param("goodName") String good_name,
-                 @Param("goodLocation") String good_location,
-                 @Param("endTime") String end_time,
-                 @Param("endAddress") String end_address,
+                 @Param("endAddress") String endAddress,
                  @Param("money") String money,
+                 @Param("goodName") String goodName,
                  @Param("telephone") String telephone,
-                 @Param("createTime") String createTime);
+                 @Param("createTime") String createTime,
+                 @Param("username") String username,
+                 @Param("other") String other);
 
     //查询全部订单---分页
     List<Orders> getOrdersList(Map<String, Object> data);

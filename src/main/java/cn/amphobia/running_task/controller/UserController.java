@@ -34,6 +34,7 @@ public class UserController {
         User user = userServiceImpl.getUser(telephone);
         String name = "";
         String msg = "";
+        String usertelephone = "";
         int status = 0;
         int successful = 0;
         if (user == null) {
@@ -47,6 +48,7 @@ public class UserController {
             msg = "成功";
             name = user.getUsername();
             status = user.getStatus();
+            usertelephone = user.getTelephone();
             successful = 0;
         }
 
@@ -54,6 +56,7 @@ public class UserController {
         userMap.put("usernmae", name);
         userMap.put("status", status);
         userMap.put("successful", successful);
+        userMap.put("usertelephone",usertelephone);
         return JSONObject.toJSONString(userMap);
     }
 

@@ -26,7 +26,9 @@ public class AddressController {
     @GetMapping("addAddress")
     public String addAddress(@RequestParam(value = "address") String address,
                              @RequestParam(value = "status") String status,
-                             @RequestParam(value = "telephone") String telephone) {
+                             @RequestParam(value = "telephone") String telephone,
+                             @RequestParam(value = "username") String username,
+                             @RequestParam(value = "userTelephone") String userTelephone) {
         Map<String, Object> addressMap = new HashMap<>();
         //显示信息
         String msg = "";
@@ -36,7 +38,7 @@ public class AddressController {
         //设置id
         String id = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         //调用service，添加地址
-        int row = addressServiceImpl.addAddress(id, address, status, telephone);
+        int row = addressServiceImpl.addAddress(id, address, status, telephone,username,userTelephone);
 
         if (row == 1) {
             msg = "添加成功";
@@ -55,14 +57,14 @@ public class AddressController {
 
     //查看地址
     @GetMapping("getAddress")
-    public String getAddress(@RequestParam(value = "telephone") String telephone) {
+    public String getAddress(@RequestParam(value = "userTelephone") String userTelephone) {
         Map<String, Object> addressMap = new HashMap<>();
         //显示信息
         String msg = "";
         //显示标记
         int successful = 0;
 
-        List<Address> address = addressServiceImpl.getAddress(telephone);
+        List<Address> address = addressServiceImpl.getAddress(userTelephone);
 
         if (address.size() == 0) {
             msg = "查询失败";
@@ -82,6 +84,7 @@ public class AddressController {
     //修改地址
         @GetMapping("updateAddress")
     public String updateAddress(@RequestParam(value = "address") String address,
+                                @RequestParam(value = "username") String username,
                                 @RequestParam(value = "status") String status,
                                 @RequestParam(value = "telephone") String telephone,
                                 @RequestParam(value = "id") String id) {
@@ -91,7 +94,7 @@ public class AddressController {
         //显示标记
         int successful = 0;
 
-        int row = addressServiceImpl.updateAddress(address, status, telephone, id);
+        int row = addressServiceImpl.updateAddress(address, username,status, telephone, id);
 
         if (row == 1) {
             msg = "修改成功";

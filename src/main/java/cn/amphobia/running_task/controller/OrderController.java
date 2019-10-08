@@ -16,7 +16,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    Map<String, Object> orderMap = new HashMap<>();
 
     @Autowired
     private OrderServiceImpl orderServiceImpl;
@@ -24,20 +23,24 @@ public class OrderController {
     //提交订单
     @GetMapping("addOrder")
     public String getOrders(
-            @RequestParam(value = "goodName") String goodName,
-            @RequestParam(value = "goodLocation") String goodLocation,
-            @RequestParam(value = "endTime") String endTime,
             @RequestParam(value = "endAddress") String endAddress,
             @RequestParam(value = "money") String money,
-            @RequestParam(value = "telephone") String telephone) {
-//        System.out.println("添加数据");
+            @RequestParam(value = "goodName") String goodName,
+            @RequestParam(value = "telephone") String telephone,
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "other") String other) {
+        //创建UUID
         String orderId = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        //创建订单生成日期
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String create_time = dateFormat.format(new Date());
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
+        //创建信息状态
         int successful = 0;
-//        System.out.println("id值======>"+orderId);
-        int row = orderServiceImpl.addOrder(orderId, goodName, goodLocation, endTime, endAddress, money, telephone,create_time);
+        int row = orderServiceImpl.addOrder(orderId,endAddress,money,goodName,telephone,create_time,username,other);
         if (row == 1) {
             msg = "发布成功";
             successful = 0;
@@ -57,13 +60,17 @@ public class OrderController {
     public String getOrdersList(@RequestParam(value = "pageNo") int pageNo,
                                 @RequestParam(value = "pageSize") int pageSize) {
         List<Orders> list = orderServiceImpl.getOrdersList(pageNo,pageSize);
-        System.out.println("list------->"+list);
-        String name = "";
+
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
-        int status = 0;
-        int successful = -1;
+        //创建信息状态
+        int successful = 0;
+
         if (list.size() == 0) {
             msg = "我也是有底线的!";
+            successful = 1;
         } else {
             msg = "成功";
             successful = 0;
@@ -83,9 +90,12 @@ public class OrderController {
     public String getMyOrdersList(@RequestParam(value = "telephone") String telephone) {
         List<Orders> myList = orderServiceImpl.getMyOrdersList(telephone);
 
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
-        int status = 0;
-        int successful = -1;
+        //创建信息状态
+        int successful = 0;
         if (myList == null) {
             msg = "失败";
 
@@ -108,8 +118,13 @@ public class OrderController {
                            @RequestParam(value = "runName") String runName,
                            @RequestParam(value = "runTelephone") String runTelephone) {
 
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
+        //创建信息状态
         int successful = 0;
+        //创建订单状态
         String status = "";
         int row = orderServiceImpl.getOrder(orderId,runName,runTelephone);
         if(row == 1){
@@ -132,8 +147,13 @@ public class OrderController {
     @GetMapping("removeOrder")
     public String removeOrder(@RequestParam(value = "orderId") String orderId) {
 
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
+        //创建信息状态
         int successful = 0;
+        //创建订单状态
         String status = "";
 
         int row = orderServiceImpl.removeOrder(orderId);
@@ -157,8 +177,13 @@ public class OrderController {
     @GetMapping("overOrder")
     public String voerOrder(@RequestParam(value = "orderId") String orderId) {
 
+        //创建map对象
+        Map<String, Object> orderMap = new HashMap<>();
+        //创建显示信息
         String msg = "";
+        //创建信息状态
         int successful = 0;
+        //创建订单状态
         String status = "";
         int row = orderServiceImpl.overOrder(orderId);
         if(row == 1){

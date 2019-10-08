@@ -16,17 +16,17 @@ public class AddressService implements AddressServiceImpl {
 
 
     @Override
-    public int addAddress(String id, String address, String status, String telephone) {
-        return addressMapper.addAddress(id,address,status,telephone);
+    public int addAddress(String id, String address, String status, String telephone,String username,String userTelephone) {
+        return addressMapper.addAddress(id,address,status,telephone,username,userTelephone);
     }
 
     @Override
-    public int updateAddress(String address, String status, String telephone, String id) {
-        return addressMapper.updateAddress(address,status,telephone,id);
+    public int updateAddress(String address, String username,String status, String telephone, String id) {
+        return addressMapper.updateAddress(address,username,status,telephone,id);
     }
 
     @Override
-    public List<Address> getAddress(String telephone) {
-        return addressMapper.getAddress(telephone);
+    public List<Address> getAddress(String userTelephone) {
+        return addressMapper.getAddress(userTelephone);
     }
 }

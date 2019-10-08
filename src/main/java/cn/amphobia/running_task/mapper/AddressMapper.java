@@ -13,14 +13,17 @@ public interface AddressMapper {
     int addAddress(@Param("id") String id,
                    @Param("address") String address,
                    @Param("status") String status,
-                   @Param("telephone") String telephone);
+                   @Param("telephone") String telephone,
+                   @Param("username") String username,
+                   @Param("userTelephone") String userTelephone);
 
     //修改地址
     int updateAddress(@Param("address") String address,
+                      @Param("username") String username,
                       @Param("status") String status,
                       @Param("telephone") String telephone,
                       @Param("id") String id);
 
     //查找地址
-    List<Address> getAddress(@Param("telephone") String telephone);
+    List<Address> getAddress(@Param("userTelephone") String userTelephone);
 }
