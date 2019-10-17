@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+    Map<String, Object> orderMap = new HashMap<>();
 
     @Autowired
     private OrderServiceImpl orderServiceImpl;
@@ -23,24 +25,27 @@ public class OrderController {
     //提交订单
     @GetMapping("addOrder")
     public String getOrders(
+            @RequestParam(value = "goodName") String goodName,
+            @RequestParam(value = "goodLocation") String goodLocation,
+            @RequestParam(value = "endTime") String endTime,
             @RequestParam(value = "endAddress") String endAddress,
             @RequestParam(value = "money") String money,
-            @RequestParam(value = "goodName") String goodName,
+            @RequestParam(value = "lastNumber") String lastNumber,
+            @RequestParam(value = "goodNumber") String goodNumber,
             @RequestParam(value = "telephone") String telephone,
             @RequestParam(value = "username") String username,
-            @RequestParam(value = "other") String other) {
-        //创建UUID
+            @RequestParam(value = "userTelephone") String userTelephone,
+            @RequestParam(value = "other") String other
+            ) {
+        Map<String, Object> orderMap1 = new HashMap<>();
+//        System.out.println("添加数据"); other
         String orderId = UUID.randomUUID().toString().replace("-", "").toLowerCase();
-        //创建订单生成日期
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String create_time = dateFormat.format(new Date());
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
         String msg = "";
-        //创建信息状态
         int successful = 0;
-        int row = orderServiceImpl.addOrder(orderId,endAddress,money,goodName,telephone,create_time,username,other);
+//        System.out.println("id值======>"+orderId);
+        int row = orderServiceImpl.addOrder(orderId, goodName, goodLocation, endTime, endAddress, money, telephone,lastNumber,goodNumber,create_time,username,userTelephone,other);
         if (row == 1) {
             msg = "发布成功";
             successful = 0;
@@ -48,11 +53,11 @@ public class OrderController {
             msg = "发布失败";
             successful = -1;
         }
-        orderMap.put("orderId",orderId);
-        orderMap.put("msg", msg);
-        orderMap.put("successful", successful);
 
-        return JSONObject.toJSONString(orderMap);
+        orderMap1.put("msg", msg);
+        orderMap1.put("successful", successful);
+
+        return JSONObject.toJSONString(orderMap1);
     }
 
     //查询全部订单 pageNo（页码）、pageSize（每页条数）
@@ -60,20 +65,18 @@ public class OrderController {
     public String getOrdersList(@RequestParam(value = "pageNo") int pageNo,
                                 @RequestParam(value = "pageSize") int pageSize) {
         List<Orders> list = orderServiceImpl.getOrdersList(pageNo,pageSize);
-
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
+        String name = "";
         String msg = "";
-        //创建信息状态
+        int status = 0;
         int successful = 0;
-
-        if (list.size() == 0) {
-            msg = "我也是有底线的!";
-            successful = 1;
-        } else {
+        if (list == null) {
+            msg = "失败";
+        } else if (list.size() == 0){
+            successful = -1;
+            msg = "没有更多数据";
+        }else {
             msg = "成功";
-            successful = 0;
+            successful = 1;
         }
 
         orderMap.put("msg",msg);
@@ -84,18 +87,37 @@ public class OrderController {
         return JSONObject.toJSONString(orderMap);
     }
 
+    //查询我发布订单
+    @GetMapping("getMyOrdersList")
+    public String getMyOrdersList(@RequestParam(value = "userTelephone") String userTelephone) {
+        List<Orders> myList = orderServiceImpl.getMyOrdersList(userTelephone);
 
-    //查询我的订单
-    @GetMapping("getMyOrders")
-    public String getMyOrdersList(@RequestParam(value = "telephone") String telephone) {
-        List<Orders> myList = orderServiceImpl.getMyOrdersList(telephone);
-
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
         String msg = "";
-        //创建信息状态
-        int successful = 0;
+        int status = 0;
+        int successful = -1;
+        if (myList == null) {
+            msg = "失败";
+
+        } else {
+            msg = "成功";
+            successful = 0;
+        }
+
+
+        orderMap.put("successful",successful);
+        orderMap.put("msg",msg);
+        orderMap.put("data",myList);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+    //查询我跑腿的订单
+    @GetMapping("getMyRunOrdersList")
+    public String getMyRunOrdersList(@RequestParam(value = "runTelephone") String runTelephone) {
+        List<Orders> myList = orderServiceImpl.getMyRunOrdersList(runTelephone);
+
+        String msg = "";
+        int status = 0;
+        int successful = -1;
         if (myList == null) {
             msg = "失败";
 
@@ -118,48 +140,106 @@ public class OrderController {
                            @RequestParam(value = "runName") String runName,
                            @RequestParam(value = "runTelephone") String runTelephone) {
 
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
+        Orders order = orderServiceImpl.getOrders(orderId);//<!--//配合接单用-->
+
         String msg = "";
-        //创建信息状态
         int successful = 0;
-        //创建订单状态
-        String status = "";
-        int row = orderServiceImpl.getOrder(orderId,runName,runTelephone);
+
+        if(order.getStates().trim().equals("未接单")){
+
+            int row = orderServiceImpl.getOrder(orderId,runName,runTelephone);
+            if(row == 1){
+                msg = "接单成功!";
+                successful = 0;
+            }else {
+                msg = "接单失败";
+                successful = 1;
+            }
+
+        }else if(order.getStates().trim().equals("订单取消")){
+            msg=order.getStates().trim();
+
+        }else if(order.getStates().trim().equals("正在取件")){
+            msg=order.getStates().trim();
+        }
+
+
+
+
+
+
+        orderMap.put("msg", msg);
+        orderMap.put("successful",successful);
+        orderMap.put("nihao0000000","*********---------->>>>>");
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //完成订单
+
+    @GetMapping("overOrder")
+    public String voerOrder(@RequestParam(value = "orderId") String orderId,
+                            @RequestParam(value = "userTelephone") String userTelephone,
+                            @RequestParam(value = "runTelephone") String runTelephone) {
+
+        String msg = "";
+        int successful = 0;
+        double umoney = 0, money= 0, rmoney= 0;
+
+         money = (double) orderServiceImpl.getMoney(orderId);
+         umoney = (double) orderServiceImpl.getUmoney(userTelephone);
+         rmoney = (double) orderServiceImpl.getRumoney(runTelephone);
+
+        DecimalFormat df = new DecimalFormat( "0.00");
+
+//        System.out.println("money:"+money);
+        umoney =  (umoney - money);
+
+//        System.out.println("umoney"+umoney);
+        rmoney =  (rmoney + (money * 0.8));
+
+//        System.out.println("rmoney:"+rmoney);
+
+//        df.format(d1)
+
+        rmoney = Double.parseDouble(df.format(rmoney)) ;
+        umoney = Double.parseDouble(df.format(umoney)) ;
+
+//        System.out.println("df.rmoney:"+rmoney);
+//        System.out.println("df.umoney"+umoney);
+
+
+        int row = orderServiceImpl.overOrder(orderId);
+//        System.out.println("row:"+row);
         if(row == 1){
-            msg = "接单成功!";
-            status = "正在接单...";
+            msg = "订单完成!";
             successful = 0;
+             orderServiceImpl.addMoney(runTelephone,rmoney);
+             orderServiceImpl.subMoney(userTelephone,umoney);
         }else {
-            msg = "接单失败";
+            msg = "订单未完成";
             successful = 1;
         }
 
         orderMap.put("msg", msg);
         orderMap.put("successful",successful);
-        orderMap.put("status",status);
 
         return JSONObject.toJSONString(orderMap);
     }
 
-    //取消接单
+    //取消单
     @GetMapping("removeOrder")
+
     public String removeOrder(@RequestParam(value = "orderId") String orderId) {
 
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
+
+
         String msg = "";
-        //创建信息状态
         int successful = 0;
-        //创建订单状态
-        String status = "";
 
         int row = orderServiceImpl.removeOrder(orderId);
         if(row == 1){
             msg = "订单取消成功!";
-            status = "订单取消";
             successful = 0;
         }else {
             msg = "订单取消失败";
@@ -168,37 +248,102 @@ public class OrderController {
 
         orderMap.put("msg", msg);
         orderMap.put("successful",successful);
-        orderMap.put("status",status);
+
         return JSONObject.toJSONString(orderMap);
     }
 
-    //完成订单
+    @GetMapping("getOrders")
+    public String getOrders(@RequestParam(value = "orderId") String orderId) {
 
-    @GetMapping("overOrder")
-    public String voerOrder(@RequestParam(value = "orderId") String orderId) {
-
-        //创建map对象
-        Map<String, Object> orderMap = new HashMap<>();
-        //创建显示信息
         String msg = "";
-        //创建信息状态
         int successful = 0;
-        //创建订单状态
-        String status = "";
-        int row = orderServiceImpl.overOrder(orderId);
-        if(row == 1){
-            msg = "订单完成!";
-            status = "订单完成";
-            successful = 0;
+
+//        int row = orderServiceImpl.getOrder(orderId);
+        Orders order = orderServiceImpl.getOrders(orderId);
+        if(order.getStates().trim().equals("未接单")){
+            msg=order.getStates();
         }else {
-            msg = "订单未完成";
-            successful = 1;
+            msg=order.getStates();
         }
 
         orderMap.put("msg", msg);
-        orderMap.put("successful",successful);
-        orderMap.put("status",status);
+//        orderMap.put("order",order);
+
         return JSONObject.toJSONString(orderMap);
     }
+    //<!--获取赏金-->
+
+    @GetMapping("getMoney")
+    public String getMoney(@RequestParam(value = "orderId") String orderId) {
+
+        String msg = "";
+        int successful = 0;
+
+//        int row = orderServiceImpl.getOrder(orderId);
+        double money = orderServiceImpl.getMoney(orderId);
+
+
+        orderMap.put("msg", msg);
+        orderMap.put("money",money);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //<!--获取用户余额-->
+
+    @GetMapping("getUmoney")
+    public String getUmoney(@RequestParam(value = "userTelephone") String userTelephone) {
+
+        String msg = "";
+        int successful = 0;
+
+//        int row = orderServiceImpl.getOrder(orderId);
+        double money = orderServiceImpl.getUmoney(userTelephone);
+
+
+        orderMap.put("msg", msg);
+        orderMap.put("user ---- money :",money);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //<!--跑腿addMoney-->
+
+    @GetMapping("addMoney")
+    public String addMoney(@RequestParam(value = "runTelephone") String runTelephone,
+                           @RequestParam(value = "rmoney") double rmoney) {
+
+        String msg = "addMoney";
+        int successful = 0;
+
+//        int row = orderServiceImpl.getOrder(orderId);
+        int row = orderServiceImpl.addMoney(runTelephone,rmoney);
+
+
+        orderMap.put("msg", msg);
+        orderMap.put("user ---- row :",row);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
+    //<!--用户subMoney-->
+
+    @GetMapping("subMoney")
+    public String subMoney(@RequestParam(value = "userTelephone") String userTelephone,
+                           @RequestParam(value = "umoney") double umoney) {
+
+        String msg = "subMoney";
+        int successful = 0;
+
+//        int row = orderServiceImpl.getOrder(orderId);
+        int row = orderServiceImpl.subMoney(userTelephone,umoney);
+
+
+        orderMap.put("msg", msg);
+        orderMap.put("user ---- row :",row);
+
+        return JSONObject.toJSONString(orderMap);
+    }
+
 
 }

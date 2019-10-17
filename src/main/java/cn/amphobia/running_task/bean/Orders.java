@@ -13,7 +13,69 @@ public class Orders {
     private String createTime;
     private String runName;
     private String runTelephone;
+    private String states;
+    private String username;
+    private String UserTelephone;
     private String other;
+
+    public Orders() {
+
+    }
+
+    public Orders(String orderId, String goodName, String goodLocation, String endTime, String endAddress, String money, String telephone, String lastNumber, String goodNumber, String createTime, String runName, String runTelephone, String states, String username, String userTelephone, String other) {
+        this.orderId = orderId;
+        this.goodName = goodName;
+        this.goodLocation = goodLocation;
+        this.endTime = endTime;
+        this.endAddress = endAddress;
+        this.money = money;
+        this.telephone = telephone;
+        this.lastNumber = lastNumber;
+        this.goodNumber = goodNumber;
+        this.createTime = createTime;
+        this.runName = runName;
+        this.runTelephone = runTelephone;
+        this.states = states;
+        this.username = username;
+        UserTelephone = userTelephone;
+        this.other = other;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUserTelephone() {
+        return UserTelephone;
+    }
+
+    public void setUserTelephone(String userTelephone) {
+        UserTelephone = userTelephone;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+
+
+    public String getStates() {
+        return states;
+    }
+
+    public void setStates(String states) {
+        this.states = states;
+    }
+
+
 
     public String getOrderId() {
         return orderId;
@@ -111,13 +173,6 @@ public class Orders {
         this.runTelephone = runTelephone;
     }
 
-    public String getOther() {
-        return other;
-    }
-
-    public void setOther(String other) {
-        this.other = other;
-    }
 
     @Override
     public String toString() {
@@ -134,6 +189,9 @@ public class Orders {
                 ", createTime='" + createTime + '\'' +
                 ", runName='" + runName + '\'' +
                 ", runTelephone='" + runTelephone + '\'' +
+                ", states='" + states + '\'' +
+                ", username='" + username + '\'' +
+                ", UserTelephone='" + UserTelephone + '\'' +
                 ", other='" + other + '\'' +
                 '}';
     }

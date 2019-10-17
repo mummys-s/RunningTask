@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.amphobia.running_task.mapper.RoomMapper">
+    <!--创建房间号-->
+    <insert id="createRoomNumber" parameterType="cn.amphobia.running_task.bean.Room">
+        INSERT INTO room
+        (id,roomNumber)
+        values
+        (#{id},#{roomNumber})
+    </insert>
+
+    <!--更新房间状态-->
+    <update id="updateRoomStatus" parameterType="cn.amphobia.running_task.bean.Room">
+        UPDATE room
+        SET
+        status = #{status}
+        WHERE
+        roomNumber = #{roomNumber}
+    </update>
+
+    <!--返回全部信息-->
+    <select id="getAllRoom" resultType="cn.amphobia.running_task.bean.Room">
+        SELECT * FROM room
+    </select>
+
+    <!--返回单独房间信息-->
+    <select id="getOneRoom" resultType="cn.amphobia.running_task.bean.Room">
+        SELECT * FROM room WHERE roomNumber= #{roomNumber}
+    </select>
+
+
+
+    <!--删除房间信息-->
+    <delete id="deleteRoom" parameterType="cn.amphobia.running_task.bean.Room">
+        DELETE FROM room WHERE roomNumber = #{roomNumber}
+    </delete>
+</mapper>

@@ -8,6 +8,7 @@ public class User {
     private String password;
     private Text image;
     private Integer status;
+    private String money;
     private String telephone;
     private String create_time;
 
@@ -51,6 +52,14 @@ public class User {
         this.status = status;
     }
 
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
     public String getTelephone() {
         return telephone;
     }
@@ -59,12 +68,12 @@ public class User {
         this.telephone = telephone;
     }
 
-    public String getCreateTime() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreateTime(String createTime) {
-        this.create_time = createTime;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
     @Override
@@ -75,8 +84,9 @@ public class User {
                 ", password='" + password + '\'' +
                 ", image=" + image +
                 ", status=" + status +
+                ", money='" + money + '\'' +
                 ", telephone='" + telephone + '\'' +
-                ", createTime='" + create_time + '\'' +
+                ", create_time='" + create_time + '\'' +
                 '}';
     }
 }

@@ -10,6 +10,11 @@
       SELECT * FROM users WHERE telephone = #{telephone}
     </select>
 
+    <!--查询全部数据-->
+    <select id="getUserList" resultType="cn.amphobia.running_task.bean.User">
+        SELECT * FROM users
+    </select>
+
     <!--添加用户-->
     <insert id="addUser" parameterType="cn.amphobia.running_task.bean.User">
         INSERT INTO users
@@ -26,4 +31,9 @@
         WHERE
         telephone = #{telephone}
     </update>
+
+    <!--返回用户金额-->
+    <select id="getUserMoney" resultType="cn.amphobia.running_task.bean.User">
+        SELECT money FROM users WHERE telephone = #{telephone}
+    </select>
 </mapper>

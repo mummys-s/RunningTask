@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static cn.amphobia.running_task.util.VertifyCode.requestData;
 
@@ -175,6 +172,26 @@ public class UserController {
         userMap.put("successful", successful);
 
         return JSONObject.toJSONString(userMap);
+    }
+
+    //查询全部
+    @GetMapping("getUserList")
+    public String getUserList(){
+        Map<String, Object> userMap = new HashMap<>();
+        List<User> userList = userServiceImpl.getUserList();
+        userMap.put("data",userList);
+        return JSONObject.toJSONString(userMap);
+    }
+
+    //返回用户金额
+    @GetMapping("getUserMoney")
+    public String getUserMoney(@RequestParam(value = "telephone") String telephone){
+        Map<String, Object> userMap = new HashMap<>();
+        User user = userServiceImpl.getUser(telephone);
+        String money = "";
+        money = user.getMoney();
+        userMap.put("money",money);
+        return  JSONObject.toJSONString(userMap);
     }
 
 
