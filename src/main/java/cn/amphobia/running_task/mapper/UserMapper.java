@@ -26,6 +26,8 @@ public interface UserMapper {
     int updatePassword(@Param("password") String password,
                        @Param("telephone") String telephone);
 
-
+    //充值金额
+    int addMoney(@Param("money") String money,
+                 @Param("telephone") String telephone);
 
 }

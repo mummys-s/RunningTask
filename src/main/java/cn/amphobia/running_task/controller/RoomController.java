@@ -124,4 +124,12 @@ public class RoomController {
         return JSONObject.toJSONString(arrPicture);
     }
 
+    //广告页
+    @GetMapping("getAdvance")
+    public String getAdvance(){
+        String advance = "http://amphobia.cn/images/advance.jpeg";
+        return JSONObject.toJSONString(advance);
+    }
+
+
 }

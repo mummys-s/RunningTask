@@ -34,6 +34,15 @@
 
     <!--返回用户金额-->
     <select id="getUserMoney" resultType="cn.amphobia.running_task.bean.User">
-        SELECT money FROM users WHERE telephone = #{telephone}
+        SELECT money,status FROM users WHERE telephone = #{telephone}
     </select>
+
+    <!--充值金额-->
+    <update id="addMoney" parameterType="cn.amphobia.running_task.bean.User">
+        UPDATE  users
+        SET
+        money = money + #{money}
+        WHERE
+        telephone = #{telephone}
+    </update>
 </mapper>

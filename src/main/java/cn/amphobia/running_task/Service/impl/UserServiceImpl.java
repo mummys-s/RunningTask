@@ -18,6 +18,7 @@ public interface UserServiceImpl{
     //修改密码
     int updatePassword(String password,String telephone);
 
-
+    //充值金额
+    int addMoney(String money,String telephone);
 
 }

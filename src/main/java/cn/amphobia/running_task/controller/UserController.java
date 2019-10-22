@@ -189,9 +189,39 @@ public class UserController {
         Map<String, Object> userMap = new HashMap<>();
         User user = userServiceImpl.getUser(telephone);
         String money = "";
+        String status = "";
         money = user.getMoney();
+        status = String.valueOf(user.getStatus());
         userMap.put("money",money);
+        userMap.put("status",status);
         return  JSONObject.toJSONString(userMap);
+    }
+
+    //充值金额
+    @GetMapping("addMoney")
+    public String addMoney(@RequestParam(value = "money") String money,
+                           @RequestParam(value = "telephone") String telephone,
+                           @RequestParam(value = "submit") String submit){
+        Map<String, Object> userMap = new HashMap<>();
+        String msg = "";
+        String status = "";
+        String oneMoney = "";
+        int i = userServiceImpl.addMoney(money, telephone);
+        if (i == 1){
+//            System.out.println("添加成功");
+            msg = "添加成功";
+            status = "0";
+            oneMoney = userServiceImpl.getUser(telephone).getMoney();
+        }else {
+//            System.out.println("添加失败");
+            msg = "添加失败";
+            status = "1";
+            oneMoney = userServiceImpl.getUser(telephone).getMoney();
+        }
+        userMap.put("msg",msg);
+        userMap.put("status",status);
+        userMap.put("oneMoney",oneMoney);
+        return JSONObject.toJSONString(userMap);
     }
 
 

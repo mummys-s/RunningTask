@@ -36,7 +36,10 @@ public class UserService implements UserServiceImpl {
         return userMapper.updatePassword(password,telephone);
     }
 
-
+    @Override
+    public int addMoney(String money, String telephone) {
+        return userMapper.addMoney(money,telephone);
+    }
 
 
 }

@@ -11,7 +11,7 @@
     </insert>
     <!--取消订单-->
     <update id="removeOrder" >
-        UPDATE orders SET states = '订单取消' WHERE orderId = #{orderId} AND states='未接单'
+        UPDATE orders SET states = '订单取消' WHERE orderId = #{orderId} AND states = '未接单'
     </update>
 
     <!-- //接单-->
@@ -33,11 +33,11 @@
 
     <!--查询我发布的订单-->
     <select id="getMyOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
-        select * from orders where userTelephone = #{userTelephone}
+        select * from orders where userTelephone = #{userTelephone} order by createTime desc
     </select>
     <!--查询我跑腿的订单-->
     <select id="getMyRunOrdersList" resultType="cn.amphobia.running_task.bean.Orders">
-        select * from orders where runTelephone = #{runTelephone}
+        select * from orders where runTelephone = #{runTelephone} order by createTime desc
     </select>
 <!--//配合接单用-->
     <select id="getOrders" resultType="cn.amphobia.running_task.bean.Orders">
